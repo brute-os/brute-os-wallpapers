@@ -1,5 +1,5 @@
 # Official Brute OS Wallpapers
-Brute OS dev - <brute-os@outlook.co>
+Brute OS dev - <brute-os@outlook.com>
 ---
 brute-os-wallpapers pkg source repo : https://gitlab.com/brute-os/packages/brute-os-wallpapers.git
 ---
