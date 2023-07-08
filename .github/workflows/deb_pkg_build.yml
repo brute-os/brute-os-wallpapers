@@ -1,0 +1,49 @@
+name: Brute OS wallpapers PKG BUILD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up build environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+             git \
+             build-essential \
+             devscripts \
+             debhelper \
+             cmake \
+             debhelper-compat \
+             extra-cmake-modules \
+             pkg-config \
+             graphicsmagick-imagemagick-compat \
+             optipng
+
+    - name: Create Directory and pull source repository
+      run: |
+         mkdir -p /tmp/pkg_build/
+         cd /tmp/pkg_build/
+         git clone https://github.com/sys41x4/pkg_build_scripts.git
+         git clone https://gitlab.com/brute-os/packages/brute-os-wallpapers.git
+         cd brute-os-wallpapers
+         git checkout main
+
+    - name: Generate Debian package
+      run: |
+        cd /tmp/pkg_build/
+        /tmp/pkg_build/pkg_build_scripts/deb/create_unsigned_debian_pkg.sh brute-os-wallpapers@all "Arijit Bhowmick" root
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: brute-os-wallpapers_UNSIGNED
+        path: /tmp/pkg_build/BUILD_brute-os-wallpapers/
